@@ -14,9 +14,8 @@ import java.util.List;
 public class DynamoDbService {
     private final DynamoDBMapper dynamoDBMapper;
 
-    public User saveUser(User user){
+    public void saveUser(User user){
         dynamoDBMapper.save(user);
-        return user;
     }
 
     public User getUserById(String userId){

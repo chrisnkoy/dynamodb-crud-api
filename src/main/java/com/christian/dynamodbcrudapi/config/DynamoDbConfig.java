@@ -6,6 +6,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -36,7 +37,19 @@ public class DynamoDbConfig {
     }
 
     @Bean
-    public DynamoDBMapper dynamoDBMapper(AmazonDynamoDB amazonDynamoDB){
-        return new DynamoDBMapper(amazonDynamoDB);
+    public DynamoDBMapperConfig.TableNameOverride tableNameOverride(){
+        return DynamoDBMapperConfig.TableNameOverride.withTableNameReplacement("user");
+    }
+
+    @Bean
+    public DynamoDBMapperConfig dynamoDBMapperConfig(DynamoDBMapperConfig.TableNameOverride tableNameOverride){
+        return DynamoDBMapperConfig.builder()
+                .withTableNameOverride(tableNameOverride)
+                .build();
+    }
+
+    @Bean
+    public DynamoDBMapper dynamoDBMapper(AmazonDynamoDB amazonDynamoDB, DynamoDBMapperConfig dynamoDBMapperConfig){
+        return new DynamoDBMapper(amazonDynamoDB, dynamoDBMapperConfig);
     }
 }
