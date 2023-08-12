@@ -7,12 +7,17 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBAsyncClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class DynamoDbConfig {
 
+    @Value("${dynamodb.access-key}")
+    private  String ACCESS_KEY;
+    @Value("${dynamodb.secret-key}")
+    private  String SECRET_KEY;
     @Bean
     public AmazonDynamoDB amazonDynamoDB(){
         return (AmazonDynamoDBAsyncClientBuilder
@@ -26,8 +31,8 @@ public class DynamoDbConfig {
                 .withCredentials(
                         new AWSStaticCredentialsProvider(
                                 new BasicAWSCredentials(
-                                        "",
-                                        ""
+                                        ACCESS_KEY,
+                                        SECRET_KEY
                                 )
                         )
                 )

@@ -29,8 +29,17 @@ public class DynamoDbController {
     }
 
     @PostMapping("/users")
-    public String saveUser(@RequestBody User user){
-        dynamoDbService.saveUser((user));
-        return "User has been saved successfully!";
+    public String postUser(@RequestBody User user){
+        return dynamoDbService.saveUser((user));
+    }
+
+    @PutMapping("/users/{id}")
+    public String  updateUser( @PathVariable("id") String userId, @RequestBody User user){
+        return dynamoDbService.updateUser(userId, user);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public String deleteUser(@PathVariable("id") String userId){
+        return dynamoDbService.deleteUser(userId);
     }
 }
